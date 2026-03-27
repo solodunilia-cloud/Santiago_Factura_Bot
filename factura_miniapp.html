@@ -172,6 +172,21 @@ input.auto-calc:focus { color: var(--text); font-weight: 400; }
   stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
 }
 
+/* ── RESET (auto-calc) BUTTON ── */
+.reset-calc {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(245,166,35,0.4);
+  background: var(--amber-light);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; flex-shrink: 0;
+  font-size: 17px; color: var(--amber-dark);
+  transition: all 0.15s;
+  opacity: 0; pointer-events: none;
+}
+.reset-calc.visible { opacity: 1; pointer-events: all; }
+.reset-calc:active { transform: scale(0.93); background: var(--amber); color: white; }
+
 /* ── TOTALS SECTION ── */
 .totals-section {
   margin: 14px 14px 0;
@@ -555,11 +570,17 @@ input.auto-calc:focus { color: var(--text); font-weight: 400; }
     </div>
     <div class="field">
       <label>IVA 21% (€)</label>
-      <input type="number" id="iva" class="auto-calc" placeholder="0.00" step="0.01" oninput="calcFromIva()">
+      <div class="input-wrap">
+        <input type="number" id="iva" class="auto-calc" placeholder="0.00" step="0.01" oninput="onIvaManual()">
+        <button class="reset-calc" id="iva-reset" onclick="resetIva()" title="Recalcular auto">↺</button>
+      </div>
     </div>
     <div class="field total-field">
       <label>Total a pagar (€)</label>
-      <input type="number" id="total" placeholder="0.00" step="0.01">
+      <div class="input-wrap">
+        <input type="number" id="total" placeholder="0.00" step="0.01" oninput="onTotalManual()">
+        <button class="reset-calc" id="total-reset" onclick="resetTotal()" title="Recalcular auto">↺</button>
+      </div>
     </div>
   </div>
 
@@ -645,23 +666,65 @@ function switchTab(tab) {
 }
 
 // ── CALC ──
+let ivaManual = false, totalManual = false;
+
+function setAutoStyle(id, isAuto) {
+  const el = document.getElementById(id);
+  if (isAuto) { el.classList.add('auto-calc'); } else { el.classList.remove('auto-calc'); }
+}
+function showReset(fieldId, show) {
+  const btn = document.getElementById(fieldId + '-reset');
+  if (btn) { show ? btn.classList.add('visible') : btn.classList.remove('visible'); }
+}
+
 function calcFromPrecio() {
   const p = parseFloat(document.getElementById('precio').value) || 0;
   const iva = Math.round(p * 0.21 * 100) / 100;
   const total = Math.round((p + iva) * 100) / 100;
-  set('base', p.toFixed(2)); set('iva', iva.toFixed(2)); set('total', total.toFixed(2));
+  set('base', p.toFixed(2));
+  if (!ivaManual)   { set('iva',   iva.toFixed(2));   setAutoStyle('iva', true); }
+  if (!totalManual) { set('total', total.toFixed(2)); setAutoStyle('total', true); }
 }
 function calcFromBase() {
   const base = parseFloat(document.getElementById('base').value) || 0;
-  const iva = Math.round(base * 0.21 * 100) / 100;
+  const iva   = ivaManual   ? (parseFloat(document.getElementById('iva').value) || 0)
+                             : Math.round(base * 0.21 * 100) / 100;
   const total = Math.round((base + iva) * 100) / 100;
-  set('iva', iva.toFixed(2)); set('total', total.toFixed(2));
+  if (!ivaManual)   { set('iva',   iva.toFixed(2));   setAutoStyle('iva', true); }
+  if (!totalManual) { set('total', total.toFixed(2)); setAutoStyle('total', true); }
 }
-function calcFromIva() {
+function onIvaManual() {
+  ivaManual = true;
+  setAutoStyle('iva', false);
+  showReset('iva', true);
+  // Recalc total from base + new iva (unless total is also manual)
+  if (!totalManual) {
+    const base = parseFloat(document.getElementById('base').value) || 0;
+    const iva  = parseFloat(document.getElementById('iva').value)  || 0;
+    set('total', (Math.round((base + iva) * 100) / 100).toFixed(2));
+    setAutoStyle('total', true);
+  }
+}
+function onTotalManual() {
+  totalManual = true;
+  setAutoStyle('total', false);
+  showReset('total', true);
+}
+function resetIva() {
+  ivaManual = false;
+  showReset('iva', false);
+  setAutoStyle('iva', true);
+  calcFromBase();
+}
+function resetTotal() {
+  totalManual = false;
+  showReset('total', false);
+  setAutoStyle('total', true);
   const base = parseFloat(document.getElementById('base').value) || 0;
-  const iva = parseFloat(document.getElementById('iva').value) || 0;
+  const iva  = parseFloat(document.getElementById('iva').value)  || 0;
   set('total', (Math.round((base + iva) * 100) / 100).toFixed(2));
 }
+function calcFromIva() { onIvaManual(); }
 function set(id, val) { document.getElementById(id).value = val; }
 
 // ── VOICE ──
@@ -800,7 +863,7 @@ function renderClientChips() {
   
   if (clients.length === 0) {
     badge.style.display = 'none';
-    wrap.innerHTML = '<div class="client-empty-hint">No hay clientes guardados. <b style="color:var(--amber-dark);cursor:pointer;" onclick="switchTab('clients')">Añadir →</b></div>';
+    wrap.innerHTML = `<div class="client-empty-hint">No hay clientes guardados. <b style="color:var(--amber-dark);cursor:pointer;" onclick="switchTab('clients')">Añadir &rarr;</b></div>`;
     return;
   }
   
@@ -1056,16 +1119,29 @@ function generatePDF() {
 
   doc.rect(M, totY+18, W-2*M, 9);
 
-  // Save
   const filename = 'Factura_' + num.replace(/[^a-zA-Z0-9\-]/g,'_') + '_' + fecha.replace(/\//g,'-') + '.pdf';
   try {
-    doc.save(filename);
-    showStatus('✅ PDF guardado: ' + filename);
-  } catch(e) {
     const pdfBlob = doc.output('blob');
     const url = URL.createObjectURL(pdfBlob);
-    window.open(url, '_blank');
-    showStatus('✅ PDF abierto en nueva pestaña');
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 3000);
+    showStatus('✅ PDF descargado: ' + filename);
+  } catch(e) {
+    try {
+      doc.save(filename);
+      showStatus('✅ PDF guardado: ' + filename);
+    } catch(e2) {
+      const pdfBlob = doc.output('blob');
+      const url = URL.createObjectURL(pdfBlob);
+      window.open(url, '_blank');
+      showStatus('✅ PDF abierto en nueva pestaña');
+    }
   }
 }
 // Patch generatePDF to use selected client
