@@ -10,7 +10,6 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-
 :root {
   --amber: #F5A623;
   --amber-light: #FEF3DC;
@@ -22,263 +21,120 @@
   --card: #FFFFFF;
   --red: #FF3B30;
 }
-
 body {
   font-family: 'DM Sans', -apple-system, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  padding-bottom: 40px;
+  background: var(--bg); color: var(--text);
+  min-height: 100vh; padding-bottom: 60px;
 }
-
-/* Header */
 .header {
-  background: var(--card);
-  padding: 20px 20px 16px;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  background: var(--amber); padding: 20px 20px 16px;
+  display: flex; align-items: center; gap: 12px;
 }
-
 .lion-icon {
-  width: 44px;
-  height: 44px;
-  background: var(--amber);
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  flex-shrink: 0;
+  width: 44px; height: 44px;
+  background: rgba(255,255,255,0.25); border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; flex-shrink: 0;
 }
+.header-text h1 { font-family: 'DM Serif Display', Georgia, serif; font-size: 19px; color: white; }
+.header-text p { font-size: 12px; color: rgba(255,255,255,0.8); margin-top: 1px; }
 
-.header-text h1 {
-  font-family: 'DM Serif Display', Georgia, serif;
-  font-size: 18px;
-  color: var(--text);
-  letter-spacing: -0.3px;
+.tabs {
+  display: flex; background: var(--card);
+  border-bottom: 1px solid var(--border); padding: 0 16px;
 }
-
-.header-text p {
-  font-size: 12px;
-  color: var(--text-muted);
-  margin-top: 1px;
+.tab {
+  flex: 1; padding: 12px 0; font-size: 13px; font-weight: 500;
+  color: var(--text-muted); background: none; border: none;
+  border-bottom: 2px solid transparent; cursor: pointer; text-align: center;
 }
+.tab.active { color: var(--amber-dark); border-bottom-color: var(--amber); }
 
-/* Section */
+.page { display: none; }
+.page.active { display: block; }
+
 .section {
-  margin: 16px 16px 0;
-  background: var(--card);
-  border-radius: 16px;
-  overflow: hidden;
-  border: 1px solid var(--border);
+  margin: 16px 16px 0; background: var(--card);
+  border-radius: 16px; overflow: hidden; border: 1px solid var(--border);
 }
-
 .section-title {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-muted);
-  letter-spacing: 0.6px;
-  text-transform: uppercase;
-  padding: 14px 16px 8px;
+  font-size: 11px; font-weight: 600; color: var(--text-muted);
+  letter-spacing: 0.6px; text-transform: uppercase; padding: 14px 16px 8px;
 }
-
-.field {
-  padding: 0 16px 14px;
+.field { padding: 0 16px 14px; }
+.field + .field { border-top: 1px solid var(--border); padding-top: 14px; }
+.field label { display: block; font-size: 11px; font-weight: 500; color: var(--text-muted); margin-bottom: 6px; }
+.input-wrap { display: flex; gap: 8px; align-items: center; }
+input[type="text"], input[type="number"] {
+  width: 100%; padding: 10px 12px;
+  background: var(--bg); border: 1.5px solid var(--border); border-radius: 10px;
+  font-family: 'DM Sans', sans-serif; font-size: 15px; color: var(--text);
+  outline: none; transition: border-color 0.15s; -webkit-appearance: none;
 }
-
-.field + .field {
-  border-top: 1px solid var(--border);
-  padding-top: 14px;
-}
-
-.field label {
-  display: block;
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--text-muted);
-  margin-bottom: 6px;
-  letter-spacing: 0.2px;
-}
-
-.input-wrap {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-
-input[type="text"],
-input[type="number"] {
-  width: 100%;
-  padding: 10px 12px;
-  background: var(--bg);
-  border: 1.5px solid var(--border);
-  border-radius: 10px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 15px;
-  font-weight: 400;
-  color: var(--text);
-  outline: none;
-  transition: border-color 0.15s, background 0.15s;
-  -webkit-appearance: none;
-}
-
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+input:focus { border-color: var(--amber); background: #FFFBF2; }
 
-input:focus {
-  border-color: var(--amber);
-  background: #FFFBF2;
-}
-
-input.auto-calc {
-  color: var(--text-muted);
-  font-weight: 300;
-}
-
-input.auto-calc:focus {
-  color: var(--text);
-  font-weight: 400;
-}
-
-/* Mic button */
 .mic {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  border: 1.5px solid var(--border);
-  background: var(--bg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: all 0.15s;
-  position: relative;
+  width: 40px; height: 40px; border-radius: 10px;
+  border: 1.5px solid var(--border); background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; flex-shrink: 0; transition: all 0.15s;
 }
-
 .mic:active { transform: scale(0.93); }
-
-.mic.listening {
-  background: var(--amber);
-  border-color: var(--amber);
-  animation: pulse 1s ease-in-out infinite;
-}
-
+.mic.listening { background: var(--amber); border-color: var(--amber); animation: pulse 1s ease-in-out infinite; }
 .mic.listening svg { stroke: white; }
-
 @keyframes pulse {
   0%, 100% { box-shadow: 0 0 0 0 rgba(245,166,35,0.4); }
   50% { box-shadow: 0 0 0 6px rgba(245,166,35,0); }
 }
+.mic svg { width: 16px; height: 16px; stroke: var(--text-muted); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
-.mic svg {
-  width: 16px;
-  height: 16px;
-  stroke: var(--text-muted);
-  fill: none;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-/* Totals */
 .totals-section {
-  margin: 16px 16px 0;
-  background: var(--amber-light);
-  border-radius: 16px;
-  overflow: hidden;
-  border: 1px solid rgba(245,166,35,0.25);
+  margin: 16px 16px 0; background: var(--amber-light);
+  border-radius: 16px; overflow: hidden; border: 1px solid rgba(245,166,35,0.25);
+}
+.totals-section .section-title { color: var(--amber-dark); }
+.totals-section .field label { color: var(--amber-dark); }
+.totals-section input { background: rgba(255,255,255,0.7); border-color: rgba(245,166,35,0.3); }
+.totals-section input:focus { background: white; border-color: var(--amber); }
+.total-field input { font-weight: 600; font-size: 17px; color: var(--amber-dark); background: white !important; border-color: var(--amber) !important; }
+
+.client-badge {
+  margin: 16px 16px 0; padding: 12px 16px;
+  background: var(--card); border-radius: 12px; border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.client-badge.hidden { display: none; }
+.badge-info { flex: 1; }
+.badge-name { font-size: 14px; font-weight: 600; }
+.badge-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.badge-btn {
+  font-size: 12px; color: var(--amber-dark); background: var(--amber-light);
+  border: none; border-radius: 8px; padding: 6px 12px; cursor: pointer; font-weight: 500;
 }
 
-.totals-section .section-title {
-  color: var(--amber-dark);
-}
-
-.totals-section .field label {
-  color: var(--amber-dark);
-}
-
-.totals-section input {
-  background: rgba(255,255,255,0.7);
-  border-color: rgba(245,166,35,0.3);
-}
-
-.totals-section input:focus {
-  background: white;
-  border-color: var(--amber);
-}
-
-/* Total row highlight */
-.field.total-field input {
-  font-weight: 600;
-  font-size: 17px;
-  color: var(--amber-dark);
-  background: white;
-  border-color: var(--amber);
-}
-
-/* Status */
 .status-bar {
-  margin: 12px 16px 0;
-  padding: 10px 14px;
-  background: rgba(245,166,35,0.12);
-  border-radius: 10px;
-  font-size: 12px;
-  color: var(--amber-dark);
-  text-align: center;
-  min-height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: opacity 0.2s;
+  margin: 12px 16px 0; padding: 10px 14px;
+  background: rgba(245,166,35,0.12); border-radius: 10px;
+  font-size: 12px; color: var(--amber-dark); text-align: center;
+  min-height: 36px; display: flex; align-items: center; justify-content: center;
 }
+.status-bar.hidden { opacity: 0; pointer-events: none; }
 
-.status-bar.hidden { opacity: 0; }
-
-/* Button */
-.btn-generate {
-  margin: 20px 16px 0;
-  width: calc(100% - 32px);
-  padding: 16px;
-  background: var(--amber);
-  color: white;
-  border: none;
-  border-radius: 14px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: background 0.15s, transform 0.1s;
-  letter-spacing: -0.2px;
+.btn {
+  margin: 16px 16px 0; width: calc(100% - 32px); padding: 16px;
+  border: none; border-radius: 14px;
+  font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 600;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  gap: 8px; transition: background 0.15s, transform 0.1s;
 }
-
-.btn-generate:active {
-  background: var(--amber-dark);
-  transform: scale(0.98);
-}
-
-.btn-generate svg {
-  width: 18px;
-  height: 18px;
-  stroke: white;
-  fill: none;
-  stroke-width: 2.2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.hint {
-  font-size: 11px;
-  color: var(--text-muted);
-  text-align: center;
-  margin-top: 10px;
-}
+.btn-amber { background: var(--amber); color: white; }
+.btn-amber:active { background: var(--amber-dark); transform: scale(0.98); }
+.btn-outline { background: var(--card); color: var(--amber-dark); border: 1.5px solid var(--amber); }
+.btn-outline:active { background: var(--amber-light); transform: scale(0.98); }
+.btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.hint { font-size: 11px; color: var(--text-muted); text-align: center; margin-top: 10px; padding: 0 16px; }
 </style>
 </head>
 <body>
@@ -287,74 +143,116 @@ input.auto-calc:focus {
   <div class="lion-icon">🦁</div>
   <div class="header-text">
     <h1>Santiago León</h1>
-    <p>Nueva factura</p>
+    <p>Generador de facturas</p>
   </div>
 </div>
 
-<div class="section">
-  <div class="section-title">Datos de factura</div>
-
-  <div class="field">
-    <label>Número de factura</label>
-    <div class="input-wrap">
-      <input type="text" id="num" placeholder="AB-2026-007">
-      <button class="mic" id="mic-num" onclick="startVoice('num')">
-        <svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 19v3M8 22h8"/></svg>
-      </button>
-    </div>
-  </div>
-
-  <div class="field">
-    <label>Fecha de emisión</label>
-    <div class="input-wrap">
-      <input type="text" id="fecha" placeholder="27/03/2026">
-      <button class="mic" id="mic-fecha" onclick="startVoice('fecha')">
-        <svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 19v3M8 22h8"/></svg>
-      </button>
-    </div>
-  </div>
-
-  <div class="field">
-    <label>Precio unitario (€)</label>
-    <div class="input-wrap">
-      <input type="number" id="precio" placeholder="3313.96" step="0.01" oninput="calcFromPrecio()">
-      <button class="mic" id="mic-precio" onclick="startVoice('precio')">
-        <svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 19v3M8 22h8"/></svg>
-      </button>
-    </div>
-  </div>
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('factura')">📄 Factura</button>
+  <button class="tab" onclick="switchTab('cliente')">👤 Cliente</button>
 </div>
 
-<div class="totals-section">
-  <div class="section-title">Totales (editables)</div>
+<!-- TAB: FACTURA -->
+<div class="page active" id="page-factura">
 
-  <div class="field">
-    <label>Base imponible (€)</label>
-    <input type="number" id="base" class="auto-calc" placeholder="0.00" step="0.01" oninput="calcFromBase()">
+  <div class="client-badge hidden" id="client-badge">
+    <div class="badge-info">
+      <div class="badge-name" id="badge-name">—</div>
+      <div class="badge-sub" id="badge-sub"></div>
+    </div>
+    <button class="badge-btn" onclick="switchTab('cliente')">Cambiar</button>
   </div>
 
-  <div class="field">
-    <label>IVA 21% (€)</label>
-    <input type="number" id="iva" class="auto-calc" placeholder="0.00" step="0.01" oninput="calcFromIva()">
+  <div class="section" style="margin-top:16px;">
+    <div class="section-title">Datos de factura</div>
+    <div class="field">
+      <label>Número de factura</label>
+      <div class="input-wrap">
+        <input type="text" id="num" placeholder="AB-2026-007">
+        <button class="mic" id="mic-num" onclick="startVoice('num')"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 19v3M8 22h8"/></svg></button>
+      </div>
+    </div>
+    <div class="field">
+      <label>Fecha de emisión</label>
+      <div class="input-wrap">
+        <input type="text" id="fecha" placeholder="27/03/2026">
+        <button class="mic" id="mic-fecha" onclick="startVoice('fecha')"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 19v3M8 22h8"/></svg></button>
+      </div>
+    </div>
+    <div class="field">
+      <label>Concepto</label>
+      <div class="input-wrap">
+        <input type="text" id="concepto" placeholder="Servicios de gestión de compras">
+        <button class="mic" id="mic-concepto" onclick="startVoice('concepto')"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 19v3M8 22h8"/></svg></button>
+      </div>
+    </div>
+    <div class="field">
+      <label>Precio unitario (€)</label>
+      <div class="input-wrap">
+        <input type="number" id="precio" placeholder="3318.00" step="0.01" oninput="calcFromPrecio()">
+        <button class="mic" id="mic-precio" onclick="startVoice('precio')"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 19v3M8 22h8"/></svg></button>
+      </div>
+    </div>
   </div>
 
-  <div class="field total-field">
-    <label>Total a pagar (€)</label>
-    <input type="number" id="total" placeholder="0.00" step="0.01">
+  <div class="totals-section">
+    <div class="section-title">Totales (editables)</div>
+    <div class="field">
+      <label>Base imponible (€)</label>
+      <input type="number" id="base" placeholder="0.00" step="0.01" oninput="calcFromBase()">
+    </div>
+    <div class="field">
+      <label>IVA 21% (€)</label>
+      <input type="number" id="iva" placeholder="0.00" step="0.01" oninput="calcFromIva()">
+    </div>
+    <div class="field total-field">
+      <label>Total a pagar (€)</label>
+      <input type="number" id="total" placeholder="0.00" step="0.01">
+    </div>
   </div>
+
+  <div class="status-bar hidden" id="status"></div>
+
+  <button class="btn btn-amber" onclick="generatePDF()">
+    <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+    Descargar PDF
+  </button>
+  <p class="hint">PDF generado en tu dispositivo · Sin servidor</p>
 </div>
 
-<div class="status-bar hidden" id="status"></div>
+<!-- TAB: CLIENTE -->
+<div class="page" id="page-cliente">
+  <div class="section" style="margin-top:16px;">
+    <div class="section-title">Datos del cliente</div>
+    <div class="field">
+      <label>Nombre / Razón social</label>
+      <input type="text" id="cli-nombre" placeholder="NEKO-NOMI, S.L.">
+    </div>
+    <div class="field">
+      <label>NIF / CIF / NIE</label>
+      <input type="text" id="cli-nif" placeholder="B56937113">
+    </div>
+    <div class="field">
+      <label>Dirección (línea 1)</label>
+      <input type="text" id="cli-dir1" placeholder="CTRA. CASTELLON-ALCORA, KM.21">
+    </div>
+    <div class="field">
+      <label>Dirección (línea 2)</label>
+      <input type="text" id="cli-dir2" placeholder="12110 ALCORA, SPAIN">
+    </div>
+  </div>
 
-<button class="btn-generate" onclick="generatePDF()">
-  <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-  Descargar PDF
-</button>
-
-<p class="hint">El PDF se genera en tu dispositivo · Sin servidor</p>
+  <button class="btn btn-amber" onclick="saveCliente()">
+    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    Guardar y volver a factura
+  </button>
+  <button class="btn btn-outline" style="margin-top:8px;" onclick="clearCliente()">
+    Limpiar campos
+  </button>
+  <p class="hint">Los datos se guardan mientras la app está abierta</p>
+</div>
 
 <script>
-// Init Telegram WebApp
 if (window.Telegram && window.Telegram.WebApp) {
   Telegram.WebApp.ready();
   Telegram.WebApp.expand();
@@ -364,83 +262,81 @@ if (window.Telegram && window.Telegram.WebApp) {
 const today = new Date();
 document.getElementById('fecha').value = today.toLocaleDateString('es-ES', {day:'2-digit',month:'2-digit',year:'numeric'});
 
-// Calc logic
+// Tabs
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', ['factura','cliente'][i] === tab));
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + tab).classList.add('active');
+}
+
+// Cliente
+function saveCliente() {
+  const nombre = document.getElementById('cli-nombre').value.trim();
+  const nif    = document.getElementById('cli-nif').value.trim();
+  if (!nombre) { showStatus('Escribe el nombre del cliente', true); return; }
+  document.getElementById('badge-name').textContent = nombre;
+  document.getElementById('badge-sub').textContent  = nif ? 'NIF/CIF: ' + nif : '';
+  document.getElementById('client-badge').classList.remove('hidden');
+  showStatus('✅ Cliente guardado');
+  switchTab('factura');
+}
+function clearCliente() {
+  ['cli-nombre','cli-nif','cli-dir1','cli-dir2'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('client-badge').classList.add('hidden');
+}
+
+// Calc
 function calcFromPrecio() {
   const p = parseFloat(document.getElementById('precio').value) || 0;
-  const iva = Math.round(p * 0.21 * 100) / 100;
-  const total = Math.round((p + iva) * 100) / 100;
-  set('base', p.toFixed(2));
-  set('iva', iva.toFixed(2));
-  set('total', total.toFixed(2));
+  const iv = Math.round(p * 0.21 * 100) / 100;
+  const tot = Math.round((p + iv) * 100) / 100;
+  document.getElementById('base').value  = p.toFixed(2);
+  document.getElementById('iva').value   = iv.toFixed(2);
+  document.getElementById('total').value = tot.toFixed(2);
 }
-
 function calcFromBase() {
-  const base = parseFloat(document.getElementById('base').value) || 0;
-  const iva = Math.round(base * 0.21 * 100) / 100;
-  const total = Math.round((base + iva) * 100) / 100;
-  set('iva', iva.toFixed(2));
-  set('total', total.toFixed(2));
+  const b = parseFloat(document.getElementById('base').value) || 0;
+  const iv = Math.round(b * 0.21 * 100) / 100;
+  document.getElementById('iva').value   = iv.toFixed(2);
+  document.getElementById('total').value = (Math.round((b + iv)*100)/100).toFixed(2);
 }
-
 function calcFromIva() {
-  const base = parseFloat(document.getElementById('base').value) || 0;
-  const iva = parseFloat(document.getElementById('iva').value) || 0;
-  const total = Math.round((base + iva) * 100) / 100;
-  set('total', total.toFixed(2));
-}
-
-function set(id, val) {
-  document.getElementById(id).value = val;
+  const b = parseFloat(document.getElementById('base').value) || 0;
+  const iv = parseFloat(document.getElementById('iva').value) || 0;
+  document.getElementById('total').value = (Math.round((b + iv)*100)/100).toFixed(2);
 }
 
 // Voice
-let recognition = null;
-let activeField = null;
-
+let recognition = null, activeField = null;
 function startVoice(fieldId) {
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR) { showStatus('Голосовой ввод не поддерживается в этом браузере', true); return; }
-
-  if (recognition && activeField === fieldId) {
-    recognition.stop(); return;
-  }
+  if (!SR) { showStatus('Voz no soportada en este navegador', true); return; }
+  if (recognition && activeField === fieldId) { recognition.stop(); return; }
   if (recognition) recognition.stop();
-
   recognition = new SR();
-  recognition.lang = fieldId === 'fecha' ? 'es-ES' : 'es-ES';
+  recognition.lang = 'es-ES';
   recognition.continuous = false;
   recognition.interimResults = false;
   activeField = fieldId;
-
   document.querySelectorAll('.mic').forEach(b => b.classList.remove('listening'));
-  document.getElementById('mic-' + fieldId).classList.add('listening');
+  document.getElementById('mic-' + fieldId)?.classList.add('listening');
   showStatus('Escuchando...');
-
   recognition.onresult = (e) => {
     let t = e.results[0][0].transcript.trim();
-    if (fieldId === 'precio' || fieldId === 'base' || fieldId === 'iva' || fieldId === 'total') {
-      // Extract number from speech
-      t = t.replace(/euros?/gi, '').replace(/,/g, '.').replace(/[^\d.]/g, '');
-      const num = parseFloat(t);
-      if (!isNaN(num)) t = num.toString();
+    if (['precio','base','iva','total'].includes(fieldId)) {
+      t = t.replace(/euros?/gi,'').replace(/,/g,'.').replace(/[^\d.]/g,'');
+      const n = parseFloat(t); if (!isNaN(n)) t = n.toString();
     }
     document.getElementById(fieldId).value = t;
-    if (fieldId === 'precio') calcFromPrecio();
-    else if (fieldId === 'base') calcFromBase();
-    else if (fieldId === 'iva') calcFromIva();
+    if (fieldId==='precio') calcFromPrecio();
+    else if (fieldId==='base') calcFromBase();
+    else if (fieldId==='iva') calcFromIva();
     showStatus('Listo: ' + t);
   };
-
-  recognition.onerror = (e) => {
-    showStatus('Error: ' + e.error, true);
-    resetMics();
-  };
-
-  recognition.onend = () => { resetMics(); };
-
+  recognition.onerror = (e) => { showStatus('Error: ' + e.error, true); resetMics(); };
+  recognition.onend = () => resetMics();
   recognition.start();
 }
-
 function resetMics() {
   document.querySelectorAll('.mic').forEach(b => b.classList.remove('listening'));
   recognition = null; activeField = null;
@@ -453,165 +349,166 @@ function showStatus(msg, isErr) {
   el.style.color = isErr ? 'var(--red)' : 'var(--amber-dark)';
   el.style.background = isErr ? 'rgba(255,59,48,0.08)' : 'rgba(245,166,35,0.12)';
   clearTimeout(el._t);
-  el._t = setTimeout(() => el.classList.add('hidden'), 3000);
+  el._t = setTimeout(() => el.classList.add('hidden'), 3500);
 }
 
-// PDF Generation
+// PDF
 function generatePDF() {
-  // Check if jsPDF loaded
   if (!window.jspdf || !window.jspdf.jsPDF) {
-    showStatus('Cargando librería PDF, intenta de nuevo en 2 segundos...', true);
-    // Try loading again
+    showStatus('Cargando PDF, intenta de nuevo...', true);
     const s = document.createElement('script');
     s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
-    s.onload = () => showStatus('Listo, pulsa de nuevo el botón');
+    s.onload = () => showStatus('Listo, pulsa el botón de nuevo');
     document.head.appendChild(s);
     return;
   }
+
+  const num      = document.getElementById('num').value.trim() || 'AB-2026-001';
+  const fecha    = document.getElementById('fecha').value.trim() || '';
+  const concepto = document.getElementById('concepto').value.trim() || 'Servicios de gestión de compras';
+  const precio   = parseFloat(document.getElementById('precio').value) || 0;
+  const base     = parseFloat(document.getElementById('base').value) || precio;
+  const iva      = parseFloat(document.getElementById('iva').value) || 0;
+  const total    = parseFloat(document.getElementById('total').value) || 0;
+  const cliNombre = document.getElementById('cli-nombre').value.trim() || '—';
+  const cliNif    = document.getElementById('cli-nif').value.trim() || '—';
+  const cliDir1   = document.getElementById('cli-dir1').value.trim() || '';
+  const cliDir2   = document.getElementById('cli-dir2').value.trim() || '';
+
+  const fmt = n => n.toLocaleString('es-ES', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
   const { jsPDF } = window.jspdf;
-
-  const num    = document.getElementById('num').value.trim() || 'AB-2026-007';
-  const fecha  = document.getElementById('fecha').value.trim() || '';
-  const precio = parseFloat(document.getElementById('precio').value) || 0;
-  const base   = parseFloat(document.getElementById('base').value) || precio;
-  const iva    = parseFloat(document.getElementById('iva').value) || 0;
-  const total  = parseFloat(document.getElementById('total').value) || 0;
-
-  const fmt = (n) => n.toLocaleString('es-ES', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
-
   const doc = new jsPDF({ unit: 'mm', format: 'a4' });
-  const W = 210; const M = 15;
+  const W = 210, M = 14;
 
-  // ── AMBER HEADER ──
+  // HEADER
   doc.setFillColor(245, 166, 35);
-  doc.rect(0, 0, W, 32, 'F');
-
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(10);
+  doc.rect(0, 0, W, 36, 'F');
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(9);
   doc.setTextColor(255, 255, 255);
   doc.text('Fecha de emisión: ' + fecha, M, 13);
-  doc.text('Factura Nº: ' + num, M, 21);
-
-  doc.setFontSize(20);
+  doc.text('Factura Nº: ' + num, M, 22);
   doc.setFont('helvetica', 'bold');
-  doc.text('SANTIAGO LEON', W - M, 19, { align: 'right' });
+  doc.setFontSize(18);
+  doc.text('SANTIAGO LEON', W - M, 22, { align: 'right' });
 
-  // ── EMISOR INFO ──
-  doc.setFontSize(9);
-  doc.setTextColor(30, 30, 30);
-  doc.setFont('helvetica', 'bold');
-  doc.text('Santiago León', M, 42);
-  doc.setFont('helvetica', 'normal');
-  doc.setTextColor(60, 60, 60);
-  doc.text('NIE Y8772642L', M, 48);
-  doc.text('Avenida del Mar, 11, entresuelo B, 12003, Castellón de la Plana, España', M, 54);
-  doc.text('Teléfono: +34 647258332', M, 60);
+  // EMISOR
+  let y = 46;
+  doc.setFontSize(10); doc.setFont('helvetica','bold'); doc.setTextColor(30,30,30);
+  doc.text('Santiago León', M, y); y += 6;
+  doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(80,80,80);
+  doc.text('NIE Y8772642L', M, y); y += 5;
+  doc.text('Avenida del Mar, 11, entresuelo B, 12003, Castellón de la Plana, España', M, y); y += 5;
+  doc.text('Teléfono: +34 647258332', M, y);
 
-  // ── DIVIDER ──
-  doc.setDrawColor(220, 220, 220);
-  doc.setLineWidth(0.3);
-  doc.line(M, 65, W - M, 65);
+  // DIVIDER
+  y += 8;
+  doc.setDrawColor(220,220,220); doc.setLineWidth(0.3);
+  doc.line(M, y, W-M, y);
 
-  // ── TWO COLUMNS ──
-  doc.setFontSize(10);
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(180, 110, 5);
-  doc.text('Datos del emisor (Autónomo):', M, 74);
-  doc.text('Datos del cliente:', 110, 74);
+  // TWO COLUMNS
+  y += 10;
+  const col2 = 112;
+  doc.setFontSize(9); doc.setFont('helvetica','bold'); doc.setTextColor(196,127,10);
+  doc.text('Datos del emisor (Autónomo):', M, y);
+  doc.text('Datos del cliente:', col2, y);
+  y += 8;
 
-  doc.setFontSize(9);
-  doc.setTextColor(30, 30, 30);
-
-  const labelCol = (x, y, label, value) => {
-    doc.setFont('helvetica', 'bold');
-    doc.text(label, x, y);
-    doc.setFont('helvetica', 'normal');
-    doc.text(value, x + doc.getTextWidth(label) + 1, y);
+  const lv = (x, yy, label, value) => {
+    doc.setFont('helvetica','bold'); doc.setFontSize(8.5); doc.setTextColor(30,30,30);
+    doc.text(label, x, yy);
+    doc.setFont('helvetica','normal');
+    doc.text(String(value), x + doc.getTextWidth(label) + 1, yy);
   };
 
-  labelCol(M, 82, 'Forma de pago: ', 'Transferencia bancaria');
-  labelCol(M, 88, 'IBAN: ', 'ES46 0182 5319 7702 0284 0648');
-  labelCol(M, 94, 'BIC: ', 'BBVAESMM');
-  labelCol(M, 100, 'Plazo de pago: ', '45 días');
+  lv(M,    y, 'Forma de pago: ', 'Transferencia bancaria');
+  lv(col2, y, 'Nombre: ', cliNombre);
+  y += 6;
+  lv(M,    y, 'IBAN: ', 'ES46 0182 5319 7702 0284 0648');
+  lv(col2, y, 'NIF/CIF: ', cliNif);
+  y += 6;
+  lv(M,    y, 'BIC: ', 'BBVAESMM');
+  if (cliDir1) lv(col2, y, 'Dirección: ', cliDir1);
+  y += 6;
+  lv(M,    y, 'Plazo de pago: ', '45 días');
+  if (cliDir2) { doc.setFont('helvetica','normal'); doc.setFontSize(8.5); doc.setTextColor(30,30,30); doc.text(cliDir2, col2, y); }
 
-  labelCol(110, 82, 'Nombre y apellidos: ', 'NEKO-NOMI, S.L.');
-  labelCol(110, 88, 'NIE: ', 'B56937113');
-  doc.setFont('helvetica', 'bold');
-  doc.text('Dirección: ', 110, 94);
-  doc.setFont('helvetica', 'normal');
-  doc.text('CTRA. CASTELLON-ALCORA, KM.21,', 130, 94);
-  doc.text('12110 ALCORA, SPAIN', 110, 100);
+  // CONCEPTO
+  y += 14;
+  doc.setFontSize(9); doc.setFont('helvetica','bold'); doc.setTextColor(196,127,10);
+  doc.text('Concepto:', M, y); y += 6;
+  doc.setFont('helvetica','normal'); doc.setTextColor(100,100,100);
+  doc.text(concepto, M, y);
 
-  // ── CONCEPTO ──
-  doc.setFontSize(10);
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(180, 110, 5);
-  doc.text('Concepto:', M, 114);
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(9);
-  doc.setTextColor(100, 100, 100);
-  doc.text('Servicios de gestión de compras', M, 121);
+  // ITEMS TABLE
+  y += 12;
+  const rH = 9;
 
-  // ── ITEMS TABLE ──
-  const tY = 130;
-  doc.setFillColor(245, 166, 35);
-  doc.rect(M, tY, W - 2*M, 9, 'F');
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(9);
-  doc.setTextColor(255, 255, 255);
-  doc.text('Nº',  M+2,   tY+6);
-  doc.text('Concepto',   M+10,  tY+6);
-  doc.text('Cantidad',   M+100, tY+6);
-  doc.text('Precio Unitario (€)', M+120, tY+6);
-  doc.text('Total (€)',  M+160, tY+6);
+  // Header
+  doc.setFillColor(245,166,35);
+  doc.rect(M, y, W-2*M, rH, 'F');
+  doc.setFont('helvetica','bold'); doc.setFontSize(8.5); doc.setTextColor(255,255,255);
+  doc.text('Nº',          M+2,    y+6);
+  doc.text('Concepto',    M+10,   y+6);
+  doc.text('Cant.',       M+103,  y+6);
+  doc.text('Precio unit.',M+120,  y+6);
+  doc.text('Total',       M+158,  y+6);
 
-  doc.setFillColor(254, 243, 220);
-  doc.rect(M, tY+9, W-2*M, 9, 'F');
-  doc.setFont('helvetica', 'normal');
-  doc.setTextColor(30, 30, 30);
-  doc.text('1',  M+2,   tY+15);
-  doc.text('Servicios de gestión de compras', M+10, tY+15);
-  doc.text('1',  M+104, tY+15);
-  doc.text(fmt(precio), M+120, tY+15);
-  doc.text(fmt(precio), M+160, tY+15);
+  // Row
+  y += rH;
+  doc.setFillColor(254,243,220);
+  doc.rect(M, y, W-2*M, rH, 'F');
+  doc.setFont('helvetica','normal'); doc.setTextColor(30,30,30);
+  doc.text('1',                         M+2,   y+6);
+  doc.text(doc.splitTextToSize(concepto,88)[0], M+10, y+6);
+  doc.text('1',                         M+106, y+6);
+  doc.text(fmt(precio),                 M+120, y+6);
+  doc.text(fmt(precio),                 M+158, y+6);
 
   // Empty row
-  doc.setDrawColor(220, 220, 220);
-  doc.setLineWidth(0.2);
-  doc.rect(M, tY+18, W-2*M, 9);
+  y += rH;
+  doc.setDrawColor(210,210,210); doc.setLineWidth(0.2);
+  doc.rect(M, y, W-2*M, rH);
 
-  // ── TOTALS TABLE ──
-  const totY = tY + 34;
-  doc.setFillColor(245, 166, 35);
-  doc.rect(M, totY, W-2*M, 9, 'F');
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(9);
-  doc.setTextColor(255, 255, 255);
-  doc.text('Nº', M+2,   totY+6);
-  doc.text('Base imponible:', M+10,  totY+6);
-  doc.text('IVA 21%:', M+90,  totY+6);
-  doc.text('Total a pagar:', M+140, totY+6);
+  // TOTALS TABLE
+  y += rH + 8;
 
-  doc.setFillColor(254, 243, 220);
-  doc.rect(M, totY+9, W-2*M, 9, 'F');
-  doc.setFont('helvetica', 'normal');
-  doc.setTextColor(30, 30, 30);
-  doc.text('1',  M+2,   totY+15);
-  doc.text(fmt(base),  M+10,  totY+15);
-  doc.text(fmt(iva),   M+90,  totY+15);
-  doc.text(fmt(total), M+140, totY+15);
+  doc.setFillColor(245,166,35);
+  doc.rect(M, y, W-2*M, rH, 'F');
+  doc.setFont('helvetica','bold'); doc.setFontSize(8.5); doc.setTextColor(255,255,255);
+  doc.text('Nº',              M+2,   y+6);
+  doc.text('Base imponible:', M+10,  y+6);
+  doc.text('IVA 21%:',        M+78,  y+6);
+  doc.text('Total a pagar:',  M+138, y+6);
 
-  doc.rect(M, totY+18, W-2*M, 9);
+  y += rH;
+  doc.setFillColor(254,243,220);
+  doc.rect(M, y, W-2*M, rH, 'F');
+  doc.setFont('helvetica','normal'); doc.setTextColor(30,30,30);
+  doc.text('1',       M+2,   y+6);
+  doc.text(fmt(base), M+10,  y+6);
+  doc.text(fmt(iva),  M+78,  y+6);
+  doc.setFont('helvetica','bold'); doc.setFontSize(10); doc.setTextColor(196,127,10);
+  doc.text(fmt(total),M+138, y+6);
 
-  // Save - try download, fallback to open in new tab (for Telegram)
+  y += rH;
+  doc.setDrawColor(210,210,210);
+  doc.rect(M, y, W-2*M, rH);
+
+  // FOOTER
+  y += rH + 18;
+  doc.setDrawColor(220,220,220); doc.line(M, y, W-M, y);
+  y += 6;
+  doc.setFont('helvetica','normal'); doc.setFontSize(7.5); doc.setTextColor(150,150,150);
+  doc.text('Santiago León · NIE Y8772642L · Av. del Mar 11, entresuelo B, 12003 Castellón · Tel: +34 647258332', W/2, y, {align:'center'});
+
+  // SAVE
   const filename = 'Factura_' + num.replace(/[^a-zA-Z0-9\-]/g,'_') + '_' + fecha.replace(/\//g,'-') + '.pdf';
   try {
     doc.save(filename);
-    showStatus('✅ PDF guardado: ' + filename);
+    showStatus('✅ PDF descargado');
   } catch(e) {
-    // Fallback: open PDF in new tab
-    const pdfBlob = doc.output('blob');
-    const url = URL.createObjectURL(pdfBlob);
+    const url = URL.createObjectURL(doc.output('blob'));
     window.open(url, '_blank');
     showStatus('✅ PDF abierto en nueva pestaña');
   }
