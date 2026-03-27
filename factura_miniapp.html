@@ -678,11 +678,23 @@ function showReset(fieldId, show) {
 }
 
 function calcFromPrecio() {
-  const p = parseFloat(document.getElementById('precio').value) || 0;
+  const p = parseFloat(document.getElementById('precio')?.value) || 0;
+
+  if (typeof set === 'function') set('base', p.toFixed(2));
+
   const iva = Math.round(p * 0.21 * 100) / 100;
   const total = Math.round((p + iva) * 100) / 100;
-  set('base', p.toFixed(2));
-  if (!ivaManual)   { set('iva',   iva.toFixed(2));   setAutoStyle('iva', true); }
+
+  if (typeof ivaManual === 'undefined' || !ivaManual) {
+    if (typeof set === 'function') set('iva', iva.toFixed(2));
+    if (typeof setAutoStyle === 'function') setAutoStyle('iva', true);
+  }
+
+  if (typeof totalManual === 'undefined' || !totalManual) {
+    if (typeof set === 'function') set('total', total.toFixed(2));
+    if (typeof setAutoStyle === 'function') setAutoStyle('total', true);
+  }
+}
   if (!totalManual) { set('total', total.toFixed(2)); setAutoStyle('total', true); }
 }
 function calcFromBase() {
@@ -1134,7 +1146,19 @@ function generatePDF() {
     showStatus('✅ PDF descargado: ' + filename);
   } catch(e) {
     try {
-      doc.save(filename);
+      
+const blob = doc.output('blob');
+const url = URL.createObjectURL(blob);
+const a = document.createElement('a');
+a.href = url;
+a.download = filename;
+document.body.appendChild(a);
+a.click();
+setTimeout(() => {
+  URL.revokeObjectURL(url);
+  a.remove();
+}, 100);
+
       showStatus('✅ PDF guardado: ' + filename);
     } catch(e2) {
       const pdfBlob = doc.output('blob');
@@ -1155,6 +1179,23 @@ generatePDF = function() {
   _origGenPDF();
 };
 // ═══════════════════════════════════════
+
+
+function deleteClientConfirm(id, name) {
+  try {
+    if (window.Telegram && Telegram.WebApp) {
+      if (typeof showStatus === 'function') {
+        showStatus('Eliminar: ' + name + '? Pulsa otra vez para confirmar');
+      }
+      setTimeout(() => deleteClient(id), 1200);
+    } else {
+      if (confirm('¿Eliminar ' + name + '?')) deleteClient(id);
+    }
+  } catch(e) {
+    console.error(e);
+    deleteClient(id);
+  }
+}
 
 </script>
 </body>
